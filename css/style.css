@@ -1,0 +1,425 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: #0f1115;
+    color: #e8e8ea;
+}
+
+header {
+    padding: 32px 24px 16px;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0 0 4px;
+    font-size: 28px;
+}
+
+header p {
+    margin: 0;
+    color: #9a9ba5;
+}
+
+#main-nav {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 0 24px 16px;
+}
+
+.nav-button {
+    display: inline-block;
+    background-color: #1a1d24;
+    color: #9a9ba5;
+    border: 1px solid #2a2d36;
+    border-radius: 6px;
+    padding: 8px 20px;
+    font-size: 14px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.nav-button:hover {
+    color: #e8e8ea;
+}
+
+.nav-button.active {
+    background-color: #2a2d36;
+    color: #e8e8ea;
+    border-color: #3a3d46;
+}
+
+.unavailable-note {
+    color: #9a9ba5;
+    font-size: 14px;
+    margin: 0;
+}
+
+#loading-indicator,
+#error-message {
+    text-align: center;
+    padding: 48px 24px;
+    color: #9a9ba5;
+}
+
+#error-message {
+    color: #e05a5a;
+}
+
+main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px 48px;
+}
+
+#overview-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.stat-card {
+    background-color: #1a1d24;
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    text-align: center;
+}
+
+.stat-card-value {
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.stat-card-label {
+    color: #9a9ba5;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 24px;
+}
+
+.stats-section {
+    background-color: #1a1d24;
+    border-radius: 8px;
+    padding: 14px 16px;
+    overflow-x: auto;
+}
+
+.stats-section h2 {
+    margin: 0 0 16px;
+    font-size: 16px;
+    color: #9a9ba5;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.stats-section-header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: start;
+    gap: 12px;
+}
+
+.stats-section-header h2 {
+    margin: 0 0 16px;
+}
+
+.stats-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 6px;
+    margin-bottom: 16px;
+    font-size: 13px;
+    color: #9a9ba5;
+}
+
+.stats-controls select {
+    background-color: #1a1d24;
+    color: #e8e8ea;
+    border: 1px solid #2a2d36;
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 15px;
+}
+
+.role-stats-search {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.role-stats-search-icon {
+    position: absolute;
+    left: 8px;
+    width: 14px;
+    height: 14px;
+    fill: none;
+    stroke: #9a9ba5;
+    stroke-width: 2;
+    stroke-linecap: round;
+    pointer-events: none;
+}
+
+.role-stats-search input[type="search"] {
+    background-color: #1a1d24;
+    color: #e8e8ea;
+    border: 1px solid #2a2d36;
+    border-radius: 6px;
+    padding: 6px 8px 6px 28px;
+    font-size: 15px;
+    width: 160px;
+    transition: border-color 0.15s, width 0.15s;
+}
+
+.role-stats-search input[type="search"]::placeholder {
+    color: #9a9ba5;
+}
+
+.role-stats-search input[type="search"]:focus {
+    outline: none;
+    border-color: #55b8ff;
+    width: 200px;
+}
+
+.role-stats-player-count-filter {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: 20px;
+}
+
+.role-stats-player-count-separator {
+    color: #9a9ba5;
+}
+
+.role-stats-player-count-filter input[type="number"] {
+    background-color: #1a1d24;
+    color: #e8e8ea;
+    border: 1px solid #2a2d36;
+    border-radius: 6px;
+    padding: 6px 8px;
+    font-size: 15px;
+    width: 64px;
+    transition: border-color 0.15s;
+}
+
+.role-stats-player-count-filter input[type="number"]:focus {
+    outline: none;
+    border-color: #55b8ff;
+}
+
+.role-stats-right-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+}
+
+.role-stats-map-filter {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.role-stats-map-filter input[type="text"] {
+    background-color: #1a1d24;
+    color: #e8e8ea;
+    border: 1px solid #2a2d36;
+    border-radius: 6px;
+    padding: 6px 8px;
+    font-size: 15px;
+    width: 140px;
+    transition: border-color 0.15s;
+}
+
+.role-stats-map-filter input[type="text"]::placeholder {
+    color: #9a9ba5;
+}
+
+.role-stats-map-filter input[type="text"]:focus {
+    outline: none;
+    border-color: #55b8ff;
+}
+
+.role-stats-date-filter {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: #9a9ba5;
+}
+
+.role-stats-date-separator {
+    color: #9a9ba5;
+}
+
+.role-stats-date-filter input[type="date"] {
+    background-color: #1a1d24;
+    color: #e8e8ea;
+    border: 1px solid #2a2d36;
+    border-radius: 6px;
+    padding: 6px 8px;
+    font-size: 15px;
+    transition: border-color 0.15s;
+    color-scheme: dark;
+}
+
+.role-stats-date-filter input[type="date"]:focus {
+    outline: none;
+    border-color: #55b8ff;
+}
+
+.role-stats-player-name-filter {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    align-self: flex-end;
+}
+
+.role-stats-player-name-filter input[type="text"] {
+    background-color: #1a1d24;
+    color: #e8e8ea;
+    border: 1px solid #2a2d36;
+    border-radius: 6px;
+    padding: 6px 8px;
+    font-size: 15px;
+    width: 140px;
+    transition: border-color 0.15s;
+}
+
+.role-stats-player-name-filter input[type="text"]::placeholder {
+    color: #9a9ba5;
+}
+
+.role-stats-player-name-filter input[type="text"]:focus {
+    outline: none;
+    border-color: #55b8ff;
+}
+
+.role-type-filter {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 10px;
+    border: 1px solid #2a2d36;
+    border-radius: 6px;
+    padding: 4px 10px;
+    margin: 0;
+}
+
+.role-type-filter legend {
+    padding: 0 4px;
+    font-size: 14px;
+    color: #9a9ba5;
+}
+
+.role-type-filter label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.role-type-filter-all {
+    padding-left: 10px;
+    border-left: 1px solid #2a2d36;
+}
+
+.ranked-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.ranked-table th,
+.ranked-table td {
+    text-align: left;
+    padding: 6px 8px;
+    border-bottom: 1px solid #2a2d36;
+}
+
+.ranked-table th {
+    color: #9a9ba5;
+    font-weight: 600;
+}
+
+.ranked-table tr:last-child td {
+    border-bottom: none;
+}
+
+#top-players-by-games-played .ranked-table,
+#role-popularity .ranked-table,
+#map-popularity .ranked-table {
+    table-layout: fixed;
+}
+
+#top-players-by-games-played .ranked-table th:last-child,
+#role-popularity .ranked-table th:last-child,
+#map-popularity .ranked-table th:last-child {
+    width: 30%;
+}
+
+#top-players-by-games-played .ranked-table th:first-child,
+#role-popularity .ranked-table th:first-child,
+#map-popularity .ranked-table th:first-child {
+    width: 15%;
+}
+
+#top-players-by-games-played .ranked-table th:nth-child(3) {
+    width: 25%;
+}
+
+#role-stats .ranked-table {
+    table-layout: fixed;
+    font-size: 16px;
+}
+
+#role-stats .ranked-table th,
+#role-stats .ranked-table td {
+    text-align: center;
+}
+
+#role-stats .ranked-table th:nth-child(1),
+#role-stats .ranked-table td:nth-child(1) {
+    width: 40px;
+}
+
+#role-stats .ranked-table th:nth-child(2),
+#role-stats .ranked-table td:nth-child(2) {
+    width: 90px;
+}
+
+#role-stats .ranked-table th:nth-child(3),
+#role-stats .ranked-table td:nth-child(3) {
+    width: 80px;
+}
+
+#role-stats .ranked-table th:nth-child(4),
+#role-stats .ranked-table td:nth-child(4) {
+    width: 80px;
+}
+
+#role-stats .ranked-table th:nth-child(5),
+#role-stats .ranked-table td:nth-child(5) {
+    width: 70px;
+}
+
+#role-stats .ranked-table th:nth-child(6),
+#role-stats .ranked-table td:nth-child(6) {
+    width: 90px;
+}

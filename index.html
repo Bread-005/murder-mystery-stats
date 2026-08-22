@@ -1,0 +1,47 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Chaosmurder Statistics</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <h1>Chaosmurder Statistics</h1>
+    <p>Player and game statistics for the Chaosmurder Minecraft minigame</p>
+  </header>
+
+  <nav id="main-nav">
+    <a class="nav-button active" href="index.html">Overview</a>
+    <a class="nav-button" href="roles.html">Roles</a>
+  </nav>
+
+  <div id="loading-indicator">Loading statistics...</div>
+  <div id="error-message" hidden></div>
+
+  <main id="dashboard" hidden>
+    <section id="overview-stats"></section>
+
+    <div class="stats-grid">
+      <section class="stats-section">
+        <h2>Top players by games played</h2>
+        <div id="top-players-by-games-played"></div>
+      </section>
+
+      <section class="stats-section">
+        <h2>Most played roles</h2>
+        <div id="role-popularity"></div>
+      </section>
+
+      <section class="stats-section">
+        <h2>Most played maps</h2>
+        <div id="map-popularity"></div>
+      </section>
+    </div>
+  </main>
+
+  <script type="module" src="js/overview-page.js"></script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Chaosmurder Statistics</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <h1>Chaosmurder Statistics</h1>
+    <p>Player and game statistics for the Chaosmurder Minecraft minigame</p>
+  </header>
+
+  <nav id="main-nav">
+    <a class="nav-button" href="index.html">Overview</a>
+    <a class="nav-button active" href="roles.html">Roles</a>
+  </nav>
+
+  <div id="loading-indicator">Loading statistics...</div>
+  <div id="error-message" hidden></div>
+
+  <main id="dashboard" hidden>
+    <div class="stats-grid">
+      <section class="stats-section">
+        <div class="stats-section-header">
+          <div class="stats-controls">
+            <div class="role-stats-search">
+              <svg class="role-stats-search-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="11" cy="11" r="7"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input type="search" id="role-stats-search-input" placeholder="Search role...">
+            </div>
+
+            <label for="role-stats-sort-select">Sort by</label>
+            <select id="role-stats-sort-select">
+              <option value="totalTimesPlayed-desc">Times played descending</option>
+              <option value="totalTimesPlayed-asc">Times played ascending</option>
+              <option value="winRate-desc">Win rate descending</option>
+              <option value="winRate-asc">Win rate ascending</option>
+              <option value="roleName-asc">Role name (A-Z)</option>
+              <option value="roleName-desc">Role name (Z-A)</option>
+            </select>
+
+            <div class="role-stats-player-count-filter">
+              <label for="role-stats-min-players">Players</label>
+              <input type="number" id="role-stats-min-players" min="2" max="15" placeholder="Min">
+              <span class="role-stats-player-count-separator">–</span>
+              <input type="number" id="role-stats-max-players" min="2" max="15" placeholder="Max">
+            </div>
+
+            <fieldset id="role-stats-type-filter" class="role-type-filter">
+              <legend>Show role types</legend>
+              <label><input type="checkbox" name="role-type" value="Innocent">Innocent</label>
+              <label><input type="checkbox" name="role-type" value="Murderer">Murderer</label>
+              <label><input type="checkbox" name="role-type" value="Neutral">Neutral</label>
+              <label><input type="checkbox" name="role-type" value="Sidekick">Sidekick</label>
+              <label class="role-type-filter-all"><input type="checkbox" id="role-stats-type-filter-all" checked>All roles</label>
+            </fieldset>
+
+            <div class="role-stats-player-name-filter">
+              <label for="role-stats-player-name-input">With player</label>
+              <input type="text" id="role-stats-player-name-input" placeholder="Player name..." autocomplete="off" list="role-stats-player-name-datalist">
+              <datalist id="role-stats-player-name-datalist"></datalist>
+            </div>
+          </div>
+
+          <div class="role-stats-right-controls">
+            <div class="role-stats-date-filter">
+              <label for="role-stats-min-date">Date</label>
+              <input type="date" id="role-stats-min-date">
+              <span class="role-stats-date-separator">–</span>
+              <input type="date" id="role-stats-max-date">
+            </div>
+
+            <div class="role-stats-map-filter">
+              <label for="role-stats-map-input">Map</label>
+              <input type="text" id="role-stats-map-input" placeholder="Map name..." autocomplete="off" list="role-stats-map-datalist">
+              <datalist id="role-stats-map-datalist"></datalist>
+            </div>
+          </div>
+        </div>
+        <div id="role-stats"></div>
+      </section>
+    </div>
+  </main>
+
+  <script type="module" src="js/roles-page.js"></script>
+</body>
+</html>
