@@ -353,6 +353,15 @@ main {
     border-bottom: 1px solid #2a2d36;
 }
 
+.ranked-table td {
+    white-space: nowrap;
+}
+
+#role-popularity .ranked-table th:last-child,
+#map-popularity .ranked-table th:last-child {
+    width: 90px;
+}
+
 .ranked-table th {
     color: #9a9ba5;
     font-weight: 600;
@@ -360,28 +369,6 @@ main {
 
 .ranked-table tr:last-child td {
     border-bottom: none;
-}
-
-#top-players-by-games-played .ranked-table,
-#role-popularity .ranked-table,
-#map-popularity .ranked-table {
-    table-layout: fixed;
-}
-
-#top-players-by-games-played .ranked-table th:last-child,
-#role-popularity .ranked-table th:last-child,
-#map-popularity .ranked-table th:last-child {
-    width: 30%;
-}
-
-#top-players-by-games-played .ranked-table th:first-child,
-#role-popularity .ranked-table th:first-child,
-#map-popularity .ranked-table th:first-child {
-    width: 15%;
-}
-
-#top-players-by-games-played .ranked-table th:nth-child(3) {
-    width: 25%;
 }
 
 #role-stats .ranked-table {
