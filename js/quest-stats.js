@@ -227,6 +227,8 @@ const ROLE_NAME_TO_ABILITY_TEXT = {
  * @param {string} [maximumDateKey] Only count games played on or before this date, as a "YYYY-MM-DD" key.
  * @param {string} [playerNamePrefix] Only count games with a player whose name starts with this text
  * (case-insensitive).
+ * @param {string} [mapNamePrefix] Only count games whose map name starts with this text
+ * (case-insensitive); when omitted, games on {@link IGNORED_MAP_NAME_WHEN_UNFILTERED} are excluded.
  * @returns {Array<{roleName: string, roleType: string|undefined, wins: number, gamesPlayed: number, winRate: number, totalTimesPlayed: number}>}
  */
 function computeRoleStats(
@@ -392,7 +394,7 @@ function computeAverageTimeByLobbySize(games) {
             gamesPlayed: durations.length,
             averageDurationSeconds: durations.reduce((sum, duration) => sum + duration, 0) / durations.length
         }))
-        .sort((firstRow, secondRow) => parseInt(firstRow.lobbySize) - parseInt(secondRow.lobbySize));
+        .sort((firstRow, secondRow) => parseInt(firstRow.lobbySize, 10) - parseInt(secondRow.lobbySize, 10));
 
     const allDurations = [...lobbySizeToDurations.values()].flat();
     if (allDurations.length > 0) {

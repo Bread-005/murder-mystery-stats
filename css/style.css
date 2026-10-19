@@ -136,33 +136,74 @@ main {
 }
 
 .stats-section-header {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    align-items: start;
-    gap: 12px;
+    margin-bottom: 16px;
 }
 
 .stats-section-header h2 {
     margin: 0 0 16px;
 }
 
-.stats-controls {
+.role-stats-bar {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: 8px 6px;
-    margin-bottom: 16px;
     font-size: 13px;
     color: #9a9ba5;
 }
 
-.stats-controls select {
+.role-stats-bar select {
     background-color: #1a1d24;
     color: #e8e8ea;
     border: 1px solid #2a2d36;
     border-radius: 6px;
     padding: 4px 8px;
     font-size: 15px;
+}
+
+.role-stats-filters-toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: auto;
+    background-color: #1a1d24;
+    color: #e8e8ea;
+    border: 1px solid #2a2d36;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: border-color 0.15s;
+}
+
+.role-stats-filters-toggle:hover {
+    border-color: #55b8ff;
+}
+
+.role-stats-filters-toggle[aria-expanded="true"] {
+    border-color: #55b8ff;
+    color: #55b8ff;
+}
+
+.role-stats-filters-count {
+    background-color: #55b8ff;
+    color: #0e1015;
+    border-radius: 999px;
+    padding: 1px 7px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.role-stats-filters-panel {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px 24px;
+    margin-top: 12px;
+    padding: 14px 16px;
+    border: 1px solid #2a2d36;
+    border-radius: 8px;
+    background-color: #15171d;
 }
 
 .role-stats-search {
@@ -208,7 +249,6 @@ main {
     display: flex;
     align-items: center;
     gap: 6px;
-    margin-left: 20px;
 }
 
 .role-stats-player-count-separator {
@@ -229,13 +269,6 @@ main {
 .role-stats-player-count-filter input[type="number"]:focus {
     outline: none;
     border-color: #55b8ff;
-}
-
-.role-stats-right-controls {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 10px;
 }
 
 .role-stats-map-filter {
@@ -296,7 +329,6 @@ main {
     display: flex;
     align-items: center;
     gap: 6px;
-    align-self: flex-end;
 }
 
 .role-stats-player-name-filter input[type="text"] {

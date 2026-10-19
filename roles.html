@@ -25,7 +25,7 @@
     <div class="stats-grid">
       <section class="stats-section" id="role-stats-section">
         <div class="stats-section-header">
-          <div class="stats-controls">
+          <div class="role-stats-bar">
             <div class="role-stats-search">
               <svg class="role-stats-search-icon" viewBox="0 0 24 24" aria-hidden="true">
                 <circle cx="11" cy="11" r="7"></circle>
@@ -44,6 +44,14 @@
               <option value="roleName-desc">Role name (Z-A)</option>
             </select>
 
+            <button type="button" id="role-stats-filters-toggle" class="role-stats-filters-toggle"
+                    aria-expanded="false" aria-controls="role-stats-filters-panel">
+              Filters
+              <span id="role-stats-filters-count" class="role-stats-filters-count" hidden>0</span>
+            </button>
+          </div>
+
+          <div id="role-stats-filters-panel" class="role-stats-filters-panel" hidden>
             <div class="role-stats-player-count-filter">
               <label for="role-stats-min-players">Players</label>
               <input type="number" id="role-stats-min-players" min="2" max="15" placeholder="Min">
@@ -65,9 +73,7 @@
               <input type="text" id="role-stats-player-name-input" placeholder="Player name..." autocomplete="off" list="role-stats-player-name-datalist">
               <datalist id="role-stats-player-name-datalist"></datalist>
             </div>
-          </div>
 
-          <div class="role-stats-right-controls">
             <div class="role-stats-date-filter">
               <label for="role-stats-min-date">Date</label>
               <input type="date" id="role-stats-min-date">

@@ -52,9 +52,35 @@ function readOptionalNumberInput(numberInput) {
     return numberInput.value === "" ? undefined : Number(numberInput.value);
 }
 
+/**
+ * Counts how many filter categories in the collapsible panel are currently active, so the
+ * "Filters" toggle button can show a badge without the user having to open the panel.
+ */
+function countActiveFilters(
+    minPlayersInput,
+    maxPlayersInput,
+    allRoleTypesCheckbox,
+    playerNameInput,
+    minDateInput,
+    maxDateInput,
+    mapInput
+) {
+    const activeFilterFlags = [
+        minPlayersInput.value !== "" || maxPlayersInput.value !== "",
+        !allRoleTypesCheckbox.checked,
+        playerNameInput.value !== "",
+        minDateInput.value !== "" || maxDateInput.value !== "",
+        mapInput.value !== ""
+    ];
+    return activeFilterFlags.filter(Boolean).length;
+}
+
 function renderRolesPage(players, games) {
     const searchInput = document.getElementById("role-stats-search-input");
     const sortSelect = document.getElementById("role-stats-sort-select");
+    const filtersToggle = document.getElementById("role-stats-filters-toggle");
+    const filtersPanel = document.getElementById("role-stats-filters-panel");
+    const filtersCount = document.getElementById("role-stats-filters-count");
     const minPlayersInput = document.getElementById("role-stats-min-players");
     const maxPlayersInput = document.getElementById("role-stats-max-players");
     const minDateInput = document.getElementById("role-stats-min-date");
@@ -65,6 +91,12 @@ function renderRolesPage(players, games) {
     const mapDatalist = document.getElementById("role-stats-map-datalist");
     const allRoleTypesCheckbox = document.getElementById("role-stats-type-filter-all");
     const roleTypeCheckboxes = document.querySelectorAll("#role-stats-type-filter input[name='role-type']");
+
+    filtersToggle.addEventListener("click", () => {
+        const isExpanded = filtersToggle.getAttribute("aria-expanded") === "true";
+        filtersToggle.setAttribute("aria-expanded", String(!isExpanded));
+        filtersPanel.hidden = isExpanded;
+    });
 
     const playerNames = [...new Set(players.map((player) => player.name))].sort((firstName, secondName) =>
         firstName.localeCompare(secondName)
@@ -98,6 +130,18 @@ function renderRolesPage(players, games) {
         );
         const selectedRoleTypes = allRoleTypesCheckbox.checked ? [] : getSelectedRoleTypes(roleTypeCheckboxes);
         renderRoleStatsTable(roleStatsList, sortSelect.value, selectedRoleTypes, searchInput.value);
+
+        const activeFilterCount = countActiveFilters(
+            minPlayersInput,
+            maxPlayersInput,
+            allRoleTypesCheckbox,
+            playerNameInput,
+            minDateInput,
+            maxDateInput,
+            mapInput
+        );
+        filtersCount.textContent = String(activeFilterCount);
+        filtersCount.hidden = activeFilterCount === 0;
     };
 
     searchInput.addEventListener("input", rerenderRoleStatsTable);
