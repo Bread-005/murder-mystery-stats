@@ -52,8 +52,10 @@ function hexColorToRgba(hexColor, alpha) {
  * @param {Array<Array<string>>} rowValues Row cell values, in display order.
  * @param {Array<string|undefined>} [rowColors] Optional "#RRGGBB" color to tint each row's background with,
  * in the same order as `rowValues`.
+ * @param {Object<number, Array<string|undefined>>} [columnTooltips] Optional map from a `columnLabels`
+ * index to a hover tooltip text per row (same order as `rowValues`), shown to the left of that cell.
  */
-function renderRankedTable(containerId, columnLabels, rowValues, rowColors) {
+function renderRankedTable(containerId, columnLabels, rowValues, rowColors, columnTooltips) {
     const container = document.getElementById(containerId);
     container.innerHTML = "";
 
@@ -74,11 +76,35 @@ function renderRankedTable(containerId, columnLabels, rowValues, rowColors) {
         if (rowColor) {
             rowElement.style.backgroundColor = hexColorToRgba(rowColor, 0.25);
         }
-        for (const cellValue of [String(rowIndex + 1), ...rowCellValues]) {
-            const cellElement = document.createElement("td");
-            cellElement.textContent = cellValue;
-            rowElement.appendChild(cellElement);
-        }
+
+        const cellElement = document.createElement("td");
+        cellElement.textContent = String(rowIndex + 1);
+        rowElement.appendChild(cellElement);
+
+        rowCellValues.forEach((cellValue, columnIndex) => {
+            const dataCellElement = document.createElement("td");
+
+            const tooltipText = columnTooltips && columnTooltips[columnIndex]
+                ? columnTooltips[columnIndex][rowIndex]
+                : undefined;
+            if (tooltipText) {
+                const cellTextElement = document.createElement("span");
+                cellTextElement.className = "ranked-table-cell-with-tooltip";
+                cellTextElement.textContent = cellValue;
+
+                const tooltipElement = document.createElement("span");
+                tooltipElement.className = "ranked-table-tooltip";
+                tooltipElement.textContent = tooltipText;
+                cellTextElement.appendChild(tooltipElement);
+
+                dataCellElement.appendChild(cellTextElement);
+            } else {
+                dataCellElement.textContent = cellValue;
+            }
+
+            rowElement.appendChild(dataCellElement);
+        });
+
         tableElement.appendChild(rowElement);
     });
 

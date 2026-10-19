@@ -3,7 +3,8 @@ import {
     sortRoleStats,
     filterRoleStatsByRoleTypes,
     filterRoleStatsByNameSearch,
-    ROLE_NAME_TO_COLOR
+    ROLE_NAME_TO_COLOR,
+    ROLE_NAME_TO_ABILITY_TEXT
 } from "./quest-stats.js";
 import {renderRankedTable} from "./render.js";
 import {runPage} from "./page.js";
@@ -27,7 +28,8 @@ function renderRoleStatsTable(roleStatsList, sortValue, selectedRoleTypes, searc
             String(role.wins),
             String(role.totalTimesPlayed)
         ]),
-        sortedRoleStatsList.map((role) => ROLE_NAME_TO_COLOR[role.roleName])
+        sortedRoleStatsList.map((role) => ROLE_NAME_TO_COLOR[role.roleName]),
+        {0: sortedRoleStatsList.map((role) => ROLE_NAME_TO_ABILITY_TEXT[role.roleName])}
     );
 }
 

@@ -95,8 +95,6 @@ const ROLE_NAME_TO_ROLE_TYPE = {
     "Vulture": "Neutral"
 };
 
-const ROLE_TYPES = ["Innocent", "Murderer", "Neutral", "Sidekick"];
-
 const ROLE_TYPE_TO_DEFAULT_COLOR = {
     "Innocent": "#55FF55",
     "Murderer": "#FF5555",
@@ -127,6 +125,95 @@ const ROLE_NAME_TO_COLOR = Object.fromEntries(
         NEUTRAL_ROLE_NAME_TO_COLOR[roleName] || ROLE_TYPE_TO_DEFAULT_COLOR[roleType]
     ])
 );
+
+/**
+ * Maps each role's in-game display name to its ability description, copied from the game server's
+ * `Role.java`. Cooldowns, durations and other `config.yml`-driven numbers aren't exposed by the API
+ * (see the Quest Stats note in CLAUDE.md), so they're shown as bracketed placeholders (e.g.
+ * "[cooldown]") instead of the actual in-game values. Roles with no special ability ("Innocent",
+ * "Sidekick") are omitted.
+ */
+const ROLE_NAME_TO_ABILITY_TEXT = {
+    "Murderer": "Kill all opposing players, to win",
+    "Detective": "If you shoot an arrow you get a new one in [cooldown] seconds. For 5 emeralds you can investigate a corpse for information",
+    "Hunter": "You may kill any non-Innocent with your sword. If you try to kill an Innocent, you die",
+    "Hippie": "Everyone starts glowing for you",
+    "Tracker": "Your compass points towards your nearest opposing player. If there is a Sidekick you learn their role & that it is 1 of 2 players",
+    "Medium": "If a player dies, you learn information about that player. If you die everyone learns that the Murderer is 1 of 2 players",
+    "Jester": "If a non-Murderer player kills you or tries to kill you, you win. You have a fake sword",
+    "Recycler": "If you collect 7 emerald, you get an arrow. Once per game, you may choose another player: they receive 1 arrow",
+    "Vanisher": "Every [cooldown] seconds, choose a player: you teleport to them & are invisible for [duration] seconds",
+    "Stunner": "Every [cooldown] seconds, you may choose a player: they cannot move for [duration] seconds",
+    "Cleaner": "If you kill someone with your sword or snowball their corpse will be invisible. You start knowing 1 in-play Innocent role",
+    "Nice Guesser": "You start knowing 4 Murderer roles; the Murderer is 1 of them. You may choose a player & guess their role; if correct they die; if wrong you lose this ability",
+    "Time Master": "Every [cooldown] seconds, in [duration] seconds, you may teleport everyone to their current location. If a player dies during that period, they are revived",
+    "Grave Robber": "If an Innocent dies, you become their role & keep this ability",
+    "Warlock": "You may click on a player to curse them. If that cursed player is standing in a [range] block radius to another player, you may kill the other player",
+    "Deputy": "You start knowing 1 Innocent player & their role. When they die, you become their role",
+    "Arsonist": "If you leftclick (hit) a player: they are doused, but if they hit you, they are no longer doused. If all other alive players are doused, you win",
+    "Medic": "Once per game, choose a player (not yourself): they are safe from sword attacks",
+    "Ninja": "You may click on a player to target them. You may later teleport to their location and kill them that way",
+    "Dreamer": "You start knowing 2 Innocent, 1 Murderer and 1 Neutral role from all players each; 1 is their role",
+    "Neutral Guesser": "If you guess every other alive player´s role, you win. If you guess wrong twice, you die",
+    "Officer": "Every [cooldown] seconds, you may put someone in jail for [duration] seconds",
+    "Swapper": "Every [cooldown] seconds, you may swap any two player´s positions",
+    "Trickster": "You may mark a location. You may later teleport to that marked location which disappears afterwards. Every [cooldown] seconds, you may give all opposing players blindness for [duration] seconds",
+    "Shifter": "Once per game, choose a player: if they are an Innocent you become their role & they become a not-in-play Innocent role. If they are not an Innocent you become a not-in-play Innocent role",
+    "Doctor": "Once per game, click on a corpse to revive them, they join your team. If they are not an Innocent, they become a not-in-play Innocent. If you die & you haven´t used your ability, you are revived after 5 seconds",
+    "Witch": "If you leftclick (hit) a player: they are cursed, but if they hit you, they are no longer cursed. If all other alive players are cursed, your team wins. You don´t have a sword",
+    "Bodyguard": "Once per game, choose a player (not yourself): if they die, their killer teleports to you instead. Every [cooldown] seconds, you can place a 3x3 glass wall in front of you for [duration] seconds",
+    "Revealer": "Once per game, choose a player: everyone learns their role",
+    "Vulture": "Your compass points towards your nearest corpse. Every [cooldown] seconds, you may teleport to your nearest corpse. If you click on (player count - 2) corpses, you win",
+    "Exposer": "Once per game, choose a player & guess their role: if correct they die",
+    "Jackal": "If you shoot an arrow you get a new one in [cooldown] seconds. If you are the last alive player, you win. If just 2 players live, you have speed 1",
+    "Teleporter": "Every [cooldown] seconds, you may choose a player to teleport them to a corner of the current map",
+    "Speedrunner": "If you collect enough emeralds, you win. Every 5 emeralds you collect, you receive the speed effect +1. If you only need 10 more emeralds to win, you glow for everyone",
+    "Wizard": "Every [cooldown] seconds, choose a player & a potion effect they get",
+    "Bounty Hunter": "Everyone learns who your 2 targets are. If you kill all your targets, you win. If one of your targets dies by any other means you become an Innocent",
+    "Spy": "The Murderers think you are a fellow Murderer. You may kill one player",
+    "Copycat": "You have a not-in-play Innocent ability",
+    "Seer": "You start knowing which roles are in play",
+    "Survivor": "If you are alive when the game ends, you win. If Survivors are the only non-Murderer roles alive, you win. Every [cooldown] seconds you lose 1 emerald & if you don´t have any, you die. If you lose, you are a Survivor the next game. [Can be in play multiple times]",
+    "Watcher": "You start knowing everyone´s role. [- Evil Guesser]",
+    "Executioner": "You start knowing an Innocent player or Jester and their role. If that player gets shot by a non-murderer player, you win",
+    "Portalmaker": "You may place 2 portals which players can use to teleport to the other one",
+    "Neutral Killer": "If all other neutral players are dead and you have killed at least 1 of them, you win. If you try to kill a non-neutral player, you die",
+    "Alchemist": "You have a not-in-play Murderer ability",
+    "Blob": "You start knowing 1 player. If the player you know dies, you learn another alive player. Every [cooldown] seconds, you may activate your ability for [duration] seconds. If your known player dies during that time, you win",
+    "Sheriff": "You start knowing an evil player. If the player you know dies, you learn another alive evil player. If you try to kill a non-evil player, you die. [1 Innocent is evil]",
+    "Baron": "[All Innocents are Neutrals]",
+    "Jnak": "All players know who you are. All players know that the Sidekick is 1 of 2 players. If you die while the Sidekick is alive, your team wins instead",
+    "Lunatic": "You start knowing 1 Innocent player: they think they are the Murderer, but they are not. After [duration] seconds, they learn who they are",
+    "Huntsman": "You start knowing which players are Neutrals. Every [cooldown] seconds, choose a neutral player: they become a not-in-play Innocent & join your team",
+    "Snake Charmer": "Every [cooldown] seconds choose a player: a chosen Murderer swaps roles & teams with you & then becomes a not-in-play Innocent",
+    "Atheist": "If all players agree, Innocents win (, but lose if you are not in play). If only 1 player lives, Innocents lose. Every [cooldown]-[duration] seconds a player dies. [All players are Innocents]",
+    "Philosopher": "You start knowing 5 not-in-play Innocent roles. Once per game, choose one of them to become",
+    "Virilus": "If you or an infected player is within 5 blocks to another player, they become infected, learn this & die in [cooldown] seconds. You only get a sword, when you get a compass",
+    "Game Guesser": "You start knowing the players´ roles of a past game. If you (once) guess something specific, you get an arrow & most opposing players glow for you",
+    "Pit-Hag": "Every [cooldown] seconds, choose a player & a role, they become",
+    "Fanzazz": "If you kill a player, you join their team & if they are neutral, you gain their ability. If you die or the timer runs out, your team loses. If you are the last alive player, your team wins",
+    "Recruiter": "Once per game, choose a player & a Murderer or Sidekick role: they become that role & are your Sidekick now. [No Sidekick]",
+    "Village Idiot": "Every [cooldown] seconds, choose a player: you learn their team",
+    "Security": "You start knowing the lowest winrate alive Innocent role: they cannot die due to other players",
+    "Fool": "The 1st time you die, you don´t",
+    "Moneylender": "Every [cooldown] seconds, choose a player: you join their team",
+    "Teacher": "Every [cooldown] seconds choose a player: they teleport to you & both of you learn something",
+    "Exorcist": "Every [cooldown] seconds, choose a player (not chosen yet): the murderer, if chosen loses their sword for [duration] seconds",
+    "Zeitghast": "Your killcooldown is doubled. You can neither throw snowballs nor get arrows [+1 Sidekick]",
+    "Heretic": "Whoever wins, loses & whoever loses, wins, even if you are dead. All good players start knowing you are in play",
+    "Poppy Grower": "Players on the Murderer team do not know each other. If you click a poppy, everyone glows for you for 5 seconds, you get speed 2 for 3 seconds & you learn the distance between you and the murderer",
+    "Boomdandy": "If you die, all but 2 players die",
+    "Trapper": "You may place a limited number of invisible traps. If a player comes close to one, you learn their role & if they are not good, they are stunned for [duration] seconds",
+    "Pelican": "If you click on a player, they teleport to a white box. If all other alive players are in there, you win. If you die, all players in the box teleport to the location they were eaten from",
+    "Tea Lady": "Good players within [range] blocks to you cannot die due to sword attacks",
+    "Engineer": "The Murderer cannot call Sabotages. You may vent & if you vent near a good player, they learn who you are. [- Technician]",
+    "Mastermind": "If the Murderer dies, play for [duration] more seconds. If a player then dies, their team loses",
+    "Mayor": "Your vote counts twice. After every meeting you see who voted for who",
+    "Accelerator": "Every collected emerald reduces the timer by 1 second",
+    "Silencer": "Players cannot write chat messages",
+    "Empath": "Every second, you learn how many non-Innocents are within [range] blocks",
+    "Frog": "If you are in water for [cooldown] seconds, you win. If a player hits you in there, you die. If you only need [duration] seconds to win, you glow for everyone"
+};
 
 /**
  * Computes per-role win rate and total times played, both recomputed live from recorded games
@@ -394,8 +481,8 @@ function computeRemovedRolesBoughtCounts(players) {
 }
 
 export {
-    ROLE_TYPES,
     ROLE_NAME_TO_COLOR,
+    ROLE_NAME_TO_ABILITY_TEXT,
     computeRoleStats,
     sortRoleStats,
     filterRoleStatsByMinimumGamesPlayed,

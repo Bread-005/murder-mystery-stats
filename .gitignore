@@ -1,0 +1,9 @@
+# IDE
+.idea/
+
+# OS
+.DS_Store
+
+# Local data exports
+chaosmurder_stats_inventory.json
+questplayer_statistics.json
